@@ -1,0 +1,23 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.env
+.DS_Store
+
+# Run outputs
+runs/
+bench/results/
+comparisons/*/results/
+
+# The dataset is downloaded, not committed (python scripts/download_data.py)
+workspace/*
+!workspace/README.md
+notebook/workspace/
+notebook/traces/

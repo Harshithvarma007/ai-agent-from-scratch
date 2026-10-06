@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Data Analyst Agent</title>
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-frame frame-corners frame-corners--glow">
+        <span class="fc tl"></span><span class="fc tr"></span><span class="fc bl"></span><span class="fc br"></span>
+        <span class="brand-name">Data Analyst <span class="brand-accent">Agent</span></span>
+      </span>
+    </div>
+
+    <div class="controls">
+      <div class="model-picker" id="modelPicker">
+        <button class="model-button" id="modelButton" aria-haspopup="listbox" aria-expanded="false">
+          <span class="model-kind" id="modelKind">Local</span>
+          <span class="model-name" id="modelName">loading…</span>
+          <svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+        <div class="model-menu" id="modelMenu" role="listbox" hidden></div>
+      </div>
+
+      <div class="segmented" role="radiogroup" aria-label="Tool-calling mode">
+        <button class="seg is-active" data-mode="native" role="radio" aria-checked="true">Native</button>
+        <button class="seg" data-mode="react" role="radio" aria-checked="false">Prompt-based</button>
+      </div>
+    </div>
+
+    <div class="status" id="status">
+      <span class="status-dot"></span><span id="statusText">connecting</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="chat" aria-label="Conversation">
+      <div class="thread" id="thread">
+        <div class="empty" id="empty">
+          <p class="eyebrow">Ask the dataset</p>
+          <h1>What do you want to know about <span class="accent">payments.csv</span>?</h1>
+          <p class="empty-sub">The agent looks at the data, writes its own pandas code, runs it, reads the result, and keeps going until it has an answer. Every step is shown.</p>
+          <div class="suggestions" id="suggestions">
+            <button class="chip">Which merchant had the highest total eur_amount?</button>
+            <button class="chip">What share of transactions had a fraudulent dispute, by card scheme?</button>
+            <button class="chip">How many distinct merchants are in payments.csv?</button>
+            <button class="chip">What is the total eur_amount for merchant 'Zorblax_Fitness'?</button>
+          </div>
+        </div>
+      </div>
+
+      <form class="composer" id="composer">
+        <div class="composer-box frame-corners">
+          <span class="fc tl"></span><span class="fc tr"></span><span class="fc bl"></span><span class="fc br"></span>
+          <textarea id="input" rows="1" placeholder="Ask a question about the data…" autocomplete="off"></textarea>
+          <button type="submit" class="send" id="send" aria-label="Run">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 13V3M3.5 7.5L8 3l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <p class="composer-hint"><span id="hintModel">—</span> · tools: read_file, write_file, run_python · no verification</p>
+      </form>
+    </section>
+
+    <aside class="data" aria-label="Dataset">
+      <div class="data-head">
+        <p class="eyebrow">Dataset</p>
+        <h2 class="data-file" id="dataFile">data/payments.csv</h2>
+        <div class="stats">
+          <div class="stat"><span class="stat-num" id="statRows">—</span><span class="stat-label">rows</span></div>
+          <div class="stat"><span class="stat-num" id="statCols">—</span><span class="stat-label">columns</span></div>
+          <div class="stat"><span class="stat-num" id="statSize">—</span><span class="stat-label">MB</span></div>
+        </div>
+      </div>
+
+      <div class="data-section">
+        <p class="mono-label">Columns <span class="muted" id="colHint"></span></p>
+        <ul class="columns" id="columns"></ul>
+      </div>
+
+      <div class="data-section grow">
+        <p class="mono-label">Preview <span class="muted">first 60 rows</span></p>
+        <div class="table-wrap"><table class="preview" id="preview"></table></div>
+      </div>
+
+      <div class="data-section">
+        <p class="mono-label">Also in workspace</p>
+        <ul class="files" id="files"></ul>
+      </div>
+    </aside>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

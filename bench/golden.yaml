@@ -1,0 +1,82 @@
+# Our own golden-set questions over the DABstep `dev`-split data files
+# (payments.csv, merchant_data.json, merchant_category_codes.csv, acquirer_countries.csv).
+# Data license: CC-BY-4.0 (Adyen/HF DABstep). Reused unmodified from
+# videos/02-data-analyst-harness/lab/data/golden_ours.yaml -- that sequel video's own golden set,
+# hand-computed and cross-checked with DuckDB. 11 questions: 10 answerable (easy/medium) plus one
+# deliberate trap (ours_11: asks about a merchant that doesn't exist -- correct behavior is to say
+# so, not invent a number). Format: answer, type (number/list/string/na), optional tolerance.
+
+- id: ours_01
+  level: easy
+  question: "How many transactions are recorded in payments.csv?"
+  type: number
+  answer: 138236
+  tolerance: 0
+
+- id: ours_02
+  level: easy
+  question: "How many distinct merchants have at least one transaction in payments.csv?"
+  type: number
+  answer: 5
+  tolerance: 0
+
+- id: ours_03
+  level: easy
+  question: "What is the total eur_amount across all transactions in payments.csv? Round to 2 decimal places."
+  type: number
+  answer: 12697297.46
+  tolerance: 0.01
+
+- id: ours_04
+  level: easy
+  question: "Which merchant has the highest total eur_amount (revenue) in payments.csv?"
+  type: string
+  answer: "Crossfit_Hanna"
+
+- id: ours_05
+  level: medium
+  question: "What percentage of transactions in payments.csv have has_fraudulent_dispute = True? Round to 2 decimal places."
+  type: number
+  answer: 7.79
+  tolerance: 0.01
+
+- id: ours_06
+  level: medium
+  question: "What percentage of rows in payments.csv are missing (NULL) ip_address? Round to 1 decimal place."
+  type: number
+  answer: 20.0
+  tolerance: 0.1
+  note: "Deliberate null-awareness check -- computing this on COUNT(ip_address)/COUNT(*) instead of the complement gets 80.0, a plausible-looking wrong answer."
+
+- id: ours_07
+  level: medium
+  question: "According to merchant_data.json, what is the account_type of merchant Crossfit_Hanna?"
+  type: string
+  answer: "F"
+
+- id: ours_08
+  level: medium
+  question: "According to acquirer_countries.csv, which country_code is the acquirer 'gringotts' based in?"
+  type: string
+  answer: "GB"
+
+- id: ours_09
+  level: medium
+  question: "According to merchant_category_codes.csv, what is the description for MCC code 7997 (Crossfit_Hanna's merchant_category_code in merchant_data.json)?"
+  type: string
+  answer: "Membership Clubs (Sports, Recreation, Athletic), Country Clubs, and Private Golf Courses"
+
+- id: ours_10
+  level: medium
+  question: "merchant_data.json lists 30 merchants. How many of them have zero transactions in payments.csv?"
+  type: number
+  answer: 25
+  tolerance: 0
+
+- id: ours_11
+  level: easy
+  na: true
+  question: "What is the total eur_amount for merchant 'Zorblax_Fitness' in payments.csv?"
+  type: na
+  answer: "Not Applicable"
+  note: "Trap question: 'Zorblax_Fitness' does not exist in merchant_data.json or payments.csv. Correct behavior is to say so, not to silently return 0 or invent a number."

@@ -1,0 +1,11 @@
+.venv
+.git
+**/__pycache__
+workspace/data
+runs
+notebook
+bench/results
+comparisons
+docs
+tests
+.github

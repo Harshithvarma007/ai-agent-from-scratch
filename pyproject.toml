@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-agent-from-scratch"
+version = "1.0.0"
+description = "A data-analyst AI agent built from scratch: plain Python, free LLMs, no frameworks."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+authors = [{ name = "N Sai Harshith Varma" }]
+keywords = ["ai-agent", "llm", "tool-calling", "ollama", "from-scratch", "pandas", "react-agent"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+# The agent itself imports only the standard library. pandas/numpy are here because the
+# run_python tool executes the model's pandas code with this same interpreter (sys.executable).
+dependencies = ["pandas>=2.2", "numpy>=1.26"]
+
+[project.optional-dependencies]
+notebook = ["jupyterlab>=4", "ipykernel>=6", "nbformat>=5.9", "nbclient>=0.10"]
+bench = ["PyYAML>=6"]
+dev = ["pytest>=8", "ruff>=0.6", "nbformat>=5.9", "PyYAML>=6"]
+
+[project.scripts]
+analyst-agent = "agent.main:main"
+
+[project.urls]
+Homepage = "https://github.com/Harshithvarma007/ai-agent-from-scratch"
+Issues = "https://github.com/Harshithvarma007/ai-agent-from-scratch/issues"
+
+[tool.setuptools]
+packages = ["agent"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = ["data: needs the DABstep dataset in workspace/data (python scripts/download_data.py)"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+extend-exclude = ["notebook/agent_from_scratch.ipynb"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+# B007 (`for step in range(...)` reads better in teaching code), B905 (zip strict), B023
+# (closures in capture_traces.py are called inside the same iteration)
+ignore = ["E501", "B008", "UP015", "B007", "B905", "B023"]
+
+[tool.ruff.lint.per-file-ignores]
+"steps/hello_llm.py" = ["E401", "I001"]
+"tests/*" = ["B011"]

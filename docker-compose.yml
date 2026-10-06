@@ -1,0 +1,27 @@
+# docker compose up --build             -> web UI on http://localhost:8765
+# docker compose exec ollama ollama pull qwen3.5:4b   (first run only; the model persists)
+services:
+  ollama:
+    image: ollama/ollama:latest
+    volumes:
+      - ollama:/root/.ollama
+    environment:
+      - OLLAMA_CONTEXT_LENGTH=16384   # avoids silent front-truncation of the system prompt
+    ports:
+      - "11434:11434"
+
+  agent:
+    build: .
+    depends_on:
+      - ollama
+    environment:
+      - OLLAMA_HOST_URL=http://ollama:11434
+      - AGENT_PROVIDER=${AGENT_PROVIDER:-ollama}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - GROQ_API_KEY=${GROQ_API_KEY:-}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}
+    ports:
+      - "127.0.0.1:8765:8765"
+
+volumes:
+  ollama:

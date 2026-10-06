@@ -1,0 +1,17 @@
+# Pin the exact versions confirmed working as of the day these numbers were measured
+# (2026-09-28). Unlike langchain-experimental, langgraph is NOT sunset -- re-check
+# `pip index versions langgraph` before recording anyway, since it ships new releases
+# roughly weekly (784 commits in the trailing 52 weeks per the GitHub API, checked live).
+langgraph==1.2.12
+langgraph-checkpoint==4.2.0
+langgraph-checkpoint-sqlite==3.1.1     # file-backed checkpointer used by checkpointing_demo.py
+                                        # to prove persistence survives a real process restart,
+                                        # not just an in-memory dict.
+langchain-openai==1.6.6                 # same ChatOpenAI-against-Ollama trick as comparisons/langchain/
+langchain-core==1.6.5
+
+# Optional, only imported by checkpointing_demo.py's "current API" footnote (see README):
+# langgraph.prebuilt.create_react_agent is deprecated as of langgraph 1.0 in favor of
+# langchain.agents.create_agent, which is part of the main `langchain` package below.
+# Not required to run minimal_example.py or compare.py.
+langchain==1.4.2

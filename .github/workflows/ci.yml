@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    name: lint + tests (py${{ matrix.python }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - run: pip install -e ".[dev]"
+      - run: ruff check .
+      - name: unit tests (no LLM, no network)
+        run: pytest -m "not data"
+
+  replay:
+    # End to end without an LLM: replays two recorded real model runs through the loop, with
+    # the real tools running against the real dataset.
+    name: recorded-run replays on the real dataset
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - uses: actions/cache@v4
+        with:
+          path: workspace/data
+          key: dabstep-${{ hashFiles('scripts/download_data.py') }}
+      - run: pip install -r requirements.txt -e ".[dev]"
+      - run: python scripts/download_data.py
+      - run: pytest -m data
+
+  docker:
+    name: docker image builds
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t ai-agent-from-scratch .

@@ -1,0 +1,23 @@
+{
+  "model": "qwen3.5:4b",
+  "messages": [
+    {"role": "user", "content": "What is 17 + 25?"}
+  ],
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "add",
+        "description": "Add two integers.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "a": {"type": "integer"},
+            "b": {"type": "integer"}
+          },
+          "required": ["a", "b"]
+        }
+      }
+    }
+  ]
+}

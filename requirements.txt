@@ -1,0 +1,10 @@
+# Exact versions this repo was built and measured with (Python 3.12). `pip install -e .` uses the
+# looser ranges in pyproject.toml instead; use this file for a byte-for-byte reproduction.
+#
+# The agent itself needs nothing beyond the standard library. pandas/numpy are needed because
+# run_python executes the model's own pandas code with `sys.executable -I`, and -I only sees
+# packages installed directly into this interpreter's site-packages (a venv: yes; `pip install
+# --user`: no). pyyaml is only for bench/.
+pandas==3.0.6
+numpy==2.5.3
+PyYAML==6.0.3
