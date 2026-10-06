@@ -16,7 +16,10 @@ until it has an answer.
 <!-- INTRO VIDEO: to make it play inline on GitHub, edit this README on github.com, drag
      docs/assets/intro.mp4 into the editor, and replace the <a> block below with the
      https://github.com/user-attachments/assets/... URL GitHub gives you. -->
-<a href="docs/assets/intro.mp4"><img src="docs/assets/intro-poster.png" alt="Watch the 1-minute intro: what this agent is and what it does" width="820"></a>
+
+https://github.com/user-attachments/assets/4e29a4e0-f0b7-4641-babb-94923a309b74
+
+
 
 **▶ [Watch the 1-minute intro](docs/assets/intro.mp4)**: what an agent is, the loop, and the honest part.
 
